@@ -31,7 +31,7 @@ var unpackage = function ( report )
                     hit: 0,
                     details: !c.method ? [] : c.method.map( function ( m )
                     {
-                        var hit = m.counter.some( function ( counter, index, array ) 
+                        var hit = m.counter.some( function ( counter ) 
                         {
                             return counter.$.type == "METHOD" && counter.$.covered == "1";
                         });
