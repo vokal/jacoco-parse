@@ -18,14 +18,10 @@ var unpackage = function ( report )
             var fullPath = pack.$.name + '/' + s.$.name
             var className = fullPath.substring(0, fullPath.lastIndexOf('.'));
 
-            var c;
-            pack.class.forEach( function( cl ) 
+            var c = pack.class.filter( function( cl ) 
             {
-                if (cl.$.name == className) 
-                {
-                    c = cl;
-                }
-            });
+                return cl.$.name == className;
+            })[0];
 
             var classCov = {
                 title: s.$.name,
@@ -35,13 +31,9 @@ var unpackage = function ( report )
                     hit: 0,
                     details: !c.method ? [] : c.method.map( function ( m )
                     {
-                        var hit = false;
-                        m.counter.forEach( function ( counter ) 
+                        var hit = m.counter.some( function ( counter, index, array ) 
                         {
-                            if ( counter.$.type == "METHOD" && counter.$.covered == "1" ) 
-                            {
-                                hit = true;
-                            }
+                            return counter.$.type == "METHOD" && counter.$.covered == "1";
                         });
                         return {
                             name: m.$.name,
