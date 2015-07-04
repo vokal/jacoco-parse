@@ -1,7 +1,7 @@
 {
-  "name": "cobertura-parse",
-  "version": "1.0.3",
-  "description": "Parse cobertura coverage to JSON, based on output from lcov-parse",
+  "name": "jacoco-parse",
+  "version": "1.0.0",
+  "description": "Parse jacoco coverage to JSON, based on output from lcov-parse",
   "main": "source/index.js",
   "scripts": {
     "test": "mocha --reporter spec",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/vokal/cobertura-parse.git"
+    "url": "https://github.com/vokal/jacoco-parse.git"
   },
   "author": "Vokal",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vokal/cobertura-parse/issues"
+    "url": "https://github.com/vokal/jacoco-parse/issues"
   },
-  "homepage": "https://github.com/vokal/cobertura-parse",
+  "homepage": "https://github.com/vokal/jacoco-parse",
   "dependencies": {
     "mocha": "^2.2.5",
     "xml2js": "^0.4.9"
