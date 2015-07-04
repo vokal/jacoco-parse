@@ -13,14 +13,16 @@ var unpackage = function ( report )
 
     packages.forEach( function ( pack )
     {
-        var cov = pack.sourcefile.map( function (s) 
+        var cov = pack.sourcefile.map( function ( s ) 
         {
             var fullPath = pack.$.name + '/' + s.$.name
             var className = fullPath.substring(0, fullPath.lastIndexOf('.'));
 
             var c;
-            pack.class.forEach( function( cl ) {
-                if (cl.$.name == className) {
+            pack.class.forEach( function( cl ) 
+            {
+                if (cl.$.name == className) 
+                {
                     c = cl;
                 }
             });
@@ -34,8 +36,10 @@ var unpackage = function ( report )
                     details: !c.method ? [] : c.method.map( function ( m )
                     {
                         var hit = false;
-                        m.counter.forEach( function (counter) {
-                            if (counter.$.type == "METHOD" && counter.$.covered == "1") {
+                        m.counter.forEach( function ( counter ) 
+                        {
+                            if ( counter.$.type == "METHOD" && counter.$.covered == "1" ) 
+                            {
                                 hit = true;
                             }
                         });
@@ -72,7 +76,7 @@ var unpackage = function ( report )
             return classCov;
         });
 
-        output = output.concat(cov);
+        output = output.concat( cov );
     });
 
     return output;
