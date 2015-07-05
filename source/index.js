@@ -5,6 +5,13 @@ var parseString = require( "xml2js" ).parseString;
 
 var parse = {};
 
+function getCounter( source, type ) {
+    return source.counter.filter( function ( counter ) 
+    {
+        return counter.$.type === type;
+    })[0];
+}
+
 var unpackage = function ( report )
 {
     var packages = report.package;
@@ -23,12 +30,16 @@ var unpackage = function ( report )
                 return cl.$.name == className;
             })[0];
 
+            var methods = getCounter(s, "METHOD");
+            var lines = getCounter(s, "LINE");
+            var branches = getCounter(s, "BRANCH");
+
             var classCov = {
                 title: s.$.name,
                 file: fullPath,
                 functions: {
-                    found: c.method ? c.method.length : 0,
-                    hit: 0,
+                    found: Number(methods.$.covered) + Number(methods.$.missed),
+                    hit:  Number(methods.$.covered),
                     details: !c.method ? [] : c.method.map( function ( m )
                     {
                         var hit = m.counter.some( function ( counter ) 
@@ -43,8 +54,8 @@ var unpackage = function ( report )
                     } )
                 },
                 lines: {
-                    found: s.line ? s.line.length : 0,
-                    hit: 0,
+                    found: Number(lines.$.covered) + Number(lines.$.missed),
+                    hit:  Number(lines.$.covered),
                     details: !s.line ? [] : s.line.map( function ( l )
                     {
                         return {
@@ -52,18 +63,34 @@ var unpackage = function ( report )
                             hit: Number( l.$.ci )
                         };
                     } )
+                },
+                branches: {
+                    found: Number(branches.$.covered) + Number(branches.$.missed),
+                    hit:  Number(branches.$.covered),
+                    details: !s.line ? [] : [].concat.apply( [], 
+                        s.line.filter( function ( l ) 
+                        {
+                            return Number( l.$.mb ) > 0 || Number( l.$.cb ) > 0;
+                        })
+                        .map( function ( l )
+                        {
+                            var branches = []
+                            var count = Number( l.$.mb ) + Number( l.$.cb );
+
+                            for (var i = 0; i < count; ++i) {
+                                branches = branches.concat( {
+                                    line: Number( l.$.nr ),
+                                    block: 0,
+                                    branch: Number( i ),
+                                    taken:  i < Number( l.$.cb ) ? 1 : 0
+                                } )
+                            }
+
+                            return branches;
+                        } )
+                    )
                 }
             };
-
-            classCov.functions.hit = classCov.functions.details.reduce( function ( acc, val )
-            {
-                return acc + ( val.hit > 0 ? 1 : 0 );
-            }, 0 );
-
-            classCov.lines.hit = classCov.lines.details.reduce( function ( acc, val )
-            {
-                return acc + ( val.hit > 0 ? 1 : 0 );
-            }, 0 );
 
             return classCov;
         });
