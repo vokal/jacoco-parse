@@ -23,23 +23,23 @@ var unpackage = function ( report )
         var cov = pack.sourcefile.map( function ( s ) 
         {
             var fullPath = pack.$.name + '/' + s.$.name
-            var className = fullPath.substring(0, fullPath.lastIndexOf('.'));
+            var className = fullPath.substring( 0, fullPath.lastIndexOf( '.' ) );
 
             var c = pack.class.filter( function( cl ) 
             {
                 return cl.$.name == className;
             })[0];
 
-            var methods = getCounter(s, "METHOD");
-            var lines = getCounter(s, "LINE");
-            var branches = getCounter(s, "BRANCH");
+            var methods = getCounter( s, "METHOD" );
+            var lines = getCounter( s, "LINE" );
+            var branches = getCounter( s, "BRANCH" );
 
             var classCov = {
                 title: s.$.name,
                 file: fullPath,
                 functions: {
-                    found: Number(methods.$.covered) + Number(methods.$.missed),
-                    hit:  Number(methods.$.covered),
+                    found: Number( methods.$.covered ) + Number( methods.$.missed ),
+                    hit:  Number( methods.$.covered ),
                     details: !c.method ? [] : c.method.map( function ( m )
                     {
                         var hit = m.counter.some( function ( counter ) 
@@ -54,8 +54,8 @@ var unpackage = function ( report )
                     } )
                 },
                 lines: {
-                    found: Number(lines.$.covered) + Number(lines.$.missed),
-                    hit:  Number(lines.$.covered),
+                    found: Number( lines.$.covered ) + Number( lines.$.missed ),
+                    hit:  Number( lines.$.covered ),
                     details: !s.line ? [] : s.line.map( function ( l )
                     {
                         return {
@@ -65,8 +65,8 @@ var unpackage = function ( report )
                     } )
                 },
                 branches: {
-                    found: Number(branches.$.covered) + Number(branches.$.missed),
-                    hit:  Number(branches.$.covered),
+                    found: Number( branches.$.covered ) + Number( branches.$.missed ),
+                    hit:  Number( branches.$.covered ),
                     details: !s.line ? [] : [].concat.apply( [], 
                         s.line.filter( function ( l ) 
                         {
@@ -77,7 +77,8 @@ var unpackage = function ( report )
                             var branches = [];
                             var count = Number( l.$.mb ) + Number( l.$.cb );
 
-                            for (var i = 0; i < count; ++i) {
+                            for ( var i = 0; i < count; ++i ) 
+                            {
                                 branches = branches.concat( {
                                     line: Number( l.$.nr ),
                                     block: 0,
