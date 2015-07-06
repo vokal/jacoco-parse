@@ -74,7 +74,7 @@ var unpackage = function ( report )
                         })
                         .map( function ( l )
                         {
-                            var branches = []
+                            var branches = [];
                             var count = Number( l.$.mb ) + Number( l.$.cb );
 
                             for (var i = 0; i < count; ++i) {
