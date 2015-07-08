@@ -16,18 +16,18 @@ var unpackage = function ( report )
 {
     var packages = report.package;
 
-    var output = []
+    var output = [];
 
     packages.forEach( function ( pack )
     {
-        var cov = pack.sourcefile.map( function ( s ) 
+        var cov = pack.sourcefile.map( function ( s )
         {
-            var fullPath = pack.$.name + '/' + s.$.name
+            var fullPath = pack.$.name + '/' + s.$.name;
             var className = fullPath.substring( 0, fullPath.lastIndexOf( '.' ) );
 
-            var c = pack.class.filter( function( cl ) 
+            var c = pack.class.filter( function( cl )
             {
-                return cl.$.name == className;
+                return cl.$.name === className;
             })[0];
 
             var methods = getCounter( s, "METHOD" );
@@ -42,9 +42,9 @@ var unpackage = function ( report )
                     hit:  Number( methods.$.covered ),
                     details: !c.method ? [] : c.method.map( function ( m )
                     {
-                        var hit = m.counter.some( function ( counter ) 
+                        var hit = m.counter.some( function ( counter )
                         {
-                            return counter.$.type == "METHOD" && counter.$.covered == "1";
+                            return counter.$.type === "METHOD" && counter.$.covered === "1";
                         });
                         return {
                             name: m.$.name,
@@ -67,8 +67,8 @@ var unpackage = function ( report )
                 branches: {
                     found: Number( branches.$.covered ) + Number( branches.$.missed ),
                     hit:  Number( branches.$.covered ),
-                    details: !s.line ? [] : [].concat.apply( [], 
-                        s.line.filter( function ( l ) 
+                    details: !s.line ? [] : [].concat.apply( [],
+                        s.line.filter( function ( l )
                         {
                             return Number( l.$.mb ) > 0 || Number( l.$.cb ) > 0;
                         })
@@ -77,14 +77,14 @@ var unpackage = function ( report )
                             var branches = [];
                             var count = Number( l.$.mb ) + Number( l.$.cb );
 
-                            for ( var i = 0; i < count; ++i ) 
+                            for ( var i = 0; i < count; ++i )
                             {
                                 branches = branches.concat( {
                                     line: Number( l.$.nr ),
                                     block: 0,
                                     branch: Number( i ),
                                     taken:  i < Number( l.$.cb ) ? 1 : 0
-                                } )
+                                } );
                             }
 
                             return branches;
