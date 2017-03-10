@@ -34,6 +34,15 @@ var unpackage = function ( report )
             var lines = getCounter( s, "LINE" );
             var branches = getCounter( s, "BRANCH" );
 
+            if(!branches) { //Fix issue 
+                branches = {
+                    $: {
+                        covered: 0,
+                        missed: 0
+                    }
+                };
+            }
+
             var classCov = {
                 title: s.$.name,
                 file: fullPath,
