@@ -33,8 +33,12 @@ describe("parseFile", function () {
             assert.equal(err, null);
             assert.equal(result.length, 53);
 
-            var sourceFile = result.find(function (f) {
-                return f.title === 'HiddenRenderer.java';
+            var sourceFile = null;
+
+            result.forEach(function (f) {
+                if(f.title === 'HiddenRenderer.java'){
+                    sourceFile = f;
+                }
             });
 
             assert.notEqual(sourceFile, null);
