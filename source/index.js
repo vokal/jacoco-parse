@@ -23,12 +23,6 @@ var unpackage = function ( report )
         var cov = pack.sourcefile.map( function ( s )
         {
             var fullPath = pack.$.name + '/' + s.$.name;
-            var className = fullPath.substring( 0, fullPath.lastIndexOf( '.' ) );
-
-            var c = pack.class.filter( function( cl )
-            {
-                return cl.$.name === className;
-            })[0];
 
             var methods = getCounter( s, "METHOD" );
             var lines = getCounter( s, "LINE" );
@@ -49,18 +43,18 @@ var unpackage = function ( report )
                 functions: {
                     found: Number( methods.$.covered ) + Number( methods.$.missed ),
                     hit:  Number( methods.$.covered ),
-                    details: !c.method ? [] : c.method.map( function ( m )
-                    {
-                        var hit = m.counter.some( function ( counter )
-                        {
-                            return counter.$.type === "METHOD" && counter.$.covered === "1";
-                        });
-                        return {
-                            name: m.$.name,
-                            line: Number( m.$.line ),
-                            hit: hit ? 1 : 0
-                        };
-                    } )
+                    details: pack.class.reduce((result, currentClass) => {
+                        return !currentClass.method ? [] : result.concat(currentClass.method.map(method => {
+                            var hit = method.counter.some(function (counter) {
+                                return counter.$.type === "METHOD" && counter.$.covered === "1";
+                            });
+                            return {
+                                name: method.$.name,
+                                line: Number(method.$.line),
+                                hit: hit ? 1 : 0
+                            };
+                        }));
+                    }, [])
                 },
                 lines: {
                     found: Number( lines.$.covered ) + Number( lines.$.missed ),

@@ -50,6 +50,101 @@ describe("parseFile", function () {
                     "hit": 2,
                     "details": [
                         {
+                            "name": "values",
+                            "line": 36,
+                            "hit": 0
+                        },
+                        {
+                            "name": "valueOf",
+                            "line": 36,
+                            "hit": 0
+                        },
+                        {
+                            "name": "<init>",
+                            "line": 42,
+                            "hit": 1
+                        },
+                        {
+                            "name": "getType",
+                            "line": 47,
+                            "hit": 1
+                        },
+                        {
+                            "name": "<clinit>",
+                            "line": 36,
+                            "hit": 1
+                        },
+                        {
+                            "name": "<init>",
+                            "line": 32,
+                            "hit": 1
+                        },
+                        {
+                            "name": "render",
+                            "line": 36,
+                            "hit": 1
+                        },
+                        {
+                            "name": "<init>",
+                            "line": 53,
+                            "hit": 1
+                        },
+                        {
+                            "name": "render",
+                            "line": 63,
+                            "hit": 1
+                        },
+                        {
+                            "name": "getOptionTag",
+                            "line": 104,
+                            "hit": 1
+                        },
+                        {
+                            "name": "<init>",
+                            "line": 31,
+                            "hit": 1
+                        },
+                        {
+                            "name": "render",
+                            "line": 35,
+                            "hit": 1
+                        },
+                        {
+                            "name": "<init>",
+                            "line": 35,
+                            "hit": 1
+                        },
+                        {
+                            "name": "render",
+                            "line": 39,
+                            "hit": 1
+                        },
+                        {
+                            "name": "renderOptionGroup",
+                            "line": 77,
+                            "hit": 1
+                        },
+                        {
+                            "name": "<init>",
+                            "line": 31,
+                            "hit": 1
+                        },
+                        {
+                            "name": "render",
+                            "line": 35,
+                            "hit": 1
+                        },
+                        {
+                            "name": "<init>",
+                            "line": 31,
+                            "hit": 1
+                        },
+                        {
+                            "name": "render",
+                            "line": 35,
+                            "hit": 1
+                        },
+                        {
                             "name": "<init>",
                             "line": 31,
                             "hit": 1
