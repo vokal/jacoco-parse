@@ -44,7 +44,7 @@ var unpackage = function ( report )
                     found: Number( methods.$.covered ) + Number( methods.$.missed ),
                     hit:  Number( methods.$.covered ),
                     details: pack.class.reduce((result, currentClass) => {
-                        return !currentClass.method ? [] : result.concat(currentClass.method.map(method => {
+                        return !currentClass.method ? result : result.concat(currentClass.method.map(method => {
                             var hit = method.counter.some(function (counter) {
                                 return counter.$.type === "METHOD" && counter.$.covered === "1";
                             });
