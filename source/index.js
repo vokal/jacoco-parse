@@ -6,10 +6,16 @@ var parseString = require( "xml2js" ).parseString;
 var parse = {};
 
 function getCounter( source, type ) {
-    return source.counter.filter( function ( counter ) 
+    source.counter = source.counter || [];
+    return source.counter.filter( function ( counter )
     {
         return counter.$.type === type;
-    })[0];
+    })[0] || {
+        $: {
+            covered: 0,
+            missed: 0
+        }
+    };
 }
 
 var unpackage = function ( report )
@@ -23,25 +29,10 @@ var unpackage = function ( report )
         var cov = pack.sourcefile.map( function ( s )
         {
             var fullPath = pack.$.name + '/' + s.$.name;
-            var className = fullPath.substring( 0, fullPath.lastIndexOf( '.' ) );
-
-            var c = pack.class.filter( function( cl )
-            {
-                return cl.$.name === className;
-            })[0];
 
             var methods = getCounter( s, "METHOD" );
             var lines = getCounter( s, "LINE" );
             var branches = getCounter( s, "BRANCH" );
-
-            if(!branches) { //Fix issue 
-                branches = {
-                    $: {
-                        covered: 0,
-                        missed: 0
-                    }
-                };
-            }
 
             var classCov = {
                 title: s.$.name,
@@ -49,18 +40,18 @@ var unpackage = function ( report )
                 functions: {
                     found: Number( methods.$.covered ) + Number( methods.$.missed ),
                     hit:  Number( methods.$.covered ),
-                    details: !c.method ? [] : c.method.map( function ( m )
-                    {
-                        var hit = m.counter.some( function ( counter )
-                        {
-                            return counter.$.type === "METHOD" && counter.$.covered === "1";
-                        });
-                        return {
-                            name: m.$.name,
-                            line: Number( m.$.line ),
-                            hit: hit ? 1 : 0
-                        };
-                    } )
+                    details: pack.class.reduce((result, currentClass) => {
+                        return !currentClass.method ? result : result.concat(currentClass.method.map(method => {
+                            var hit = method.counter.some(function (counter) {
+                                return counter.$.type === "METHOD" && counter.$.covered === "1";
+                            });
+                            return {
+                                name: method.$.name,
+                                line: Number(method.$.line),
+                                hit: hit ? 1 : 0
+                            };
+                        }));
+                    }, [])
                 },
                 lines: {
                     found: Number( lines.$.covered ) + Number( lines.$.missed ),
