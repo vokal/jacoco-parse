@@ -1,6 +1,6 @@
 {
   "name": "jacoco-parse",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Parse jacoco coverage to JSON, based on output from lcov-parse",
   "main": "source/index.js",
   "scripts": {
